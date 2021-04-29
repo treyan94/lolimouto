@@ -44,7 +44,7 @@ func main() {
 			}
 			replyTo := m.ReplyTo
 
-			b.Reply(replyTo, strings.Replace(replyTo.Text, split[1], split[2], -1))
+			_, _ = b.Reply(replyTo, strings.Replace(replyTo.Text, split[1], split[2], -1))
 
 			return
 		}
@@ -54,7 +54,7 @@ func main() {
 			responses := []string{"Yes", "No"}
 			i := rand.Intn(len(responses))
 
-			b.Send(m.Chat, responses[i])
+			_, _ = b.Send(m.Chat, responses[i])
 		}
 	})
 
