@@ -65,10 +65,11 @@ func main() {
 				return
 			}
 			replyTo := m.ReplyTo
-			replyText := strings.Replace(replyTo.Text, split[1], split[2], -1)
-			replyText = "Did you mean: \n" + replyText
+			replyText := "`Did you mean:` \n" + strings.Replace(replyTo.Text, split[1], split[2], -1)
 
-			_, _ = b.Reply(replyTo, replyText)
+			_, _ = b.Reply(replyTo, replyText, &tb.SendOptions{
+				ParseMode: tb.ModeMarkdown,
+			})
 
 			return
 		}
