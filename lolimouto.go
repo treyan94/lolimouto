@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -34,6 +36,26 @@ func main() {
 		log.Fatal(err)
 		return
 	}
+
+	b.Handle("/shout", func(m *tb.Message) {
+		msg := strings.ToUpper(strings.Replace(m.Text, "/shout ", "", 1))
+
+		split := strings.Split(msg, "")
+		res := ""
+
+		for i, s := range split {
+			if i == 0 {
+				res = strings.Join(split, " ")
+				continue
+			}
+
+			res = res + "\n" + s + fmt.Sprintf("%"+strconv.Itoa(i*2)+"s", s)
+		}
+
+		_, _ = b.Send(m.Chat, fmt.Sprintf("`%s`", res), &tb.SendOptions{
+			ParseMode: tb.ModeMarkdown,
+		})
+	})
 
 	b.Handle(tb.OnText, func(m *tb.Message) {
 		if strings.HasPrefix(m.Text, "s/") && m.ReplyTo != nil {
