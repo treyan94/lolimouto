@@ -34,12 +34,12 @@ func textHandler(m *tb.Message) {
 		if len(split) < 3 {
 			return
 		}
-		replyTo := m.ReplyTo
-		replyText := "`Did you mean:` \n" + strings.Replace(replyTo.Text, split[1], split[2], -1)
 
-		_, _ = gb.Reply(replyTo, replyText, &tb.SendOptions{
-			ParseMode: tb.ModeMarkdown,
-		})
+		replyTo := m.ReplyTo
+		join := strings.Join(split[2:], "/")
+		replyMessage := "`Did you mean:` \n" + strings.Replace(replyTo.Text, split[1], join, -1)
+
+		_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 
 		return
 	}
