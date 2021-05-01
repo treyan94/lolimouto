@@ -1,12 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"math/rand"
 	"os"
-	"strconv"
-	"strings"
 	"time"
 
 	tb "gopkg.in/tucnak/telebot.v2"
@@ -26,62 +22,22 @@ var apiKey = func() (key string) {
 	return key
 }()
 
-func main() {
-	b, err := tb.NewBot(tb.Settings{
-		Token:  apiKey,
-		Poller: &tb.LongPoller{Timeout: 1 * time.Second},
-	})
+var gb, gbErr = tb.NewBot(tb.Settings{
+	Token:  apiKey,
+	Poller: &tb.LongPoller{Timeout: 1 * time.Second},
+})
 
-	if err != nil {
-		log.Fatal(err)
-		return
+func main() {
+	if gbErr != nil {
+		log.Fatal(gbErr)
 	}
 
-	b.Handle("/shout", func(m *tb.Message) {
-		msg := strings.ToUpper(strings.Replace(m.Text, "/shout ", "", 1))
+	registerHandlers()
 
-		split := strings.Split(msg, "")
-		res := ""
+	gb.Start()
+}
 
-		for i, s := range split {
-			if i == 0 {
-				res = strings.Join(split, " ")
-				continue
-			}
-
-			res = res + "\n" + s + fmt.Sprintf("%"+strconv.Itoa(i*2)+"s", s)
-		}
-
-		_, _ = b.Send(m.Chat, fmt.Sprintf("`%s`", res), &tb.SendOptions{
-			ParseMode: tb.ModeMarkdown,
-		})
-	})
-
-	b.Handle(tb.OnText, func(m *tb.Message) {
-		if strings.HasPrefix(m.Text, "s/") && m.ReplyTo != nil {
-			split := strings.Split(m.Text, "/")
-
-			if len(split) < 3 {
-				return
-			}
-			replyTo := m.ReplyTo
-			replyText := "`Did you mean:` \n" + strings.Replace(replyTo.Text, split[1], split[2], -1)
-
-			_, _ = b.Reply(replyTo, replyText, &tb.SendOptions{
-				ParseMode: tb.ModeMarkdown,
-			})
-
-			return
-		}
-
-		textLower := strings.ToLower(m.Text)
-		if strings.HasSuffix(textLower, " y/n") || strings.HasPrefix(textLower, "y/n") {
-			responses := []string{"Yes", "No"}
-			i := rand.Intn(len(responses))
-
-			_, _ = b.Send(m.Chat, responses[i])
-		}
-	})
-
-	b.Start()
+func registerHandlers() {
+	gb.Handle("/shout", shoutHandler)
+	gb.Handle(tb.OnText, textHandler)
 }
