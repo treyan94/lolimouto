@@ -16,15 +16,10 @@ func shoutHandler(m *tb.Message) {
 	}
 
 	split := strings.Split(msg, "")
-	res := ""
+	res := strings.Join(split, " ")
 
-	for i, s := range split {
-		if i == 0 {
-			res = strings.Join(split, " ")
-			continue
-		}
-
-		res = res + "\n" + s + fmt.Sprintf("%"+strconv.Itoa(i*2)+"s", s)
+	for i, s := range split[1:] {
+		res = res + "\n" + s + fmt.Sprintf("%"+strconv.Itoa((i+1)*2)+"s", s)
 	}
 
 	_, _ = gb.Send(m.Chat, fmt.Sprintf("`%s`", res), &tb.SendOptions{
