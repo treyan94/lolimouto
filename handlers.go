@@ -11,6 +11,10 @@ import (
 func shoutHandler(m *tb.Message) {
 	msg := strings.ToUpper(strings.Replace(m.Text, "/shout ", "", 1))
 
+	if msg == "/SHOUT" {
+		return
+	}
+
 	split := strings.Split(msg, "")
 	res := ""
 
