@@ -29,17 +29,7 @@ func shoutHandler(m *tb.Message) {
 
 func textHandler(m *tb.Message) {
 	if strings.HasPrefix(m.Text, "s/") && m.ReplyTo != nil {
-		split := strings.Split(m.Text, "/")
-
-		if len(split) < 3 {
-			return
-		}
-
-		replyTo := m.ReplyTo
-		join := strings.Join(split[2:], "/")
-		replyMessage := "`Did you mean:` \n" + strings.Replace(replyTo.Text, split[1], join, -1)
-
-		_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
+		replaceText(m)
 
 		return
 	}
@@ -51,4 +41,28 @@ func textHandler(m *tb.Message) {
 
 		_, _ = gb.Send(m.Chat, responses[i])
 	}
+}
+
+func replaceText(m *tb.Message) {
+	split := strings.Split(m.Text, "/")
+
+	if len(split) < 3 {
+		return
+	}
+
+	replyTo := m.ReplyTo
+	replyText := replyTo.Text
+
+	if replyText == "" {
+		replyText = replyTo.Caption
+	}
+
+	if replyText == "" {
+		return
+	}
+
+	join := strings.Join(split[2:], "/")
+	replyMessage := "`Did you mean:` \n" + strings.Replace(replyText, split[1], join, -1)
+
+	_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
