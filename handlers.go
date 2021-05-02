@@ -35,7 +35,9 @@ func textHandler(m *tb.Message) {
 	}
 
 	textLower := strings.ToLower(m.Text)
-	if strings.HasSuffix(textLower, " y/n") || strings.HasPrefix(textLower, "y/n") {
+	if strings.HasSuffix(textLower, " y/n") ||
+		strings.HasPrefix(textLower, "y/n") ||
+		strings.HasSuffix(textLower, " y/n?") {
 		responses := []string{"Yes", "No"}
 		i := rand.Intn(len(responses))
 
