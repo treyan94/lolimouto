@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"os"
 	"time"
 
@@ -28,6 +29,8 @@ var gb, gbErr = tb.NewBot(tb.Settings{
 })
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	if gbErr != nil {
 		log.Fatal(gbErr)
 	}
