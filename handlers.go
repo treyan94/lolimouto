@@ -28,7 +28,7 @@ func shoutHandler(m *tb.Message) {
 }
 
 func textHandler(m *tb.Message) {
-	if strings.HasPrefix(m.Text, "s/") && m.ReplyTo != nil {
+	if (strings.HasPrefix(m.Text, "s/") || strings.HasPrefix(m.Text, "/s/")) && m.ReplyTo != nil {
 		replaceText(m)
 
 		return
@@ -50,6 +50,10 @@ func replaceText(m *tb.Message) {
 
 	if len(split) < 3 {
 		return
+	}
+
+	if split[0] == "" {
+		split = split[1:]
 	}
 
 	replyTo := m.ReplyTo
