@@ -72,3 +72,7 @@ func replaceText(m *tb.Message) {
 
 	_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
+
+func patheticHandler(m *tb.Message) {
+	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromDisk("pathetic.png")})
+}

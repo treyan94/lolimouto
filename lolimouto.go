@@ -42,5 +42,6 @@ func main() {
 
 func registerHandlers() {
 	gb.Handle("/shout", shoutHandler)
+	gb.Handle("/pathetic", patheticHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
