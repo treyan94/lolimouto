@@ -76,8 +76,8 @@ func replaceText(m *tb.Message) {
 }
 
 //go:embed pathetic.png
-var img []byte
+var patheticImg []byte
 
 func patheticHandler(m *tb.Message) {
-	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromReader(bytes.NewReader(img))})
+	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromReader(bytes.NewReader(patheticImg))})
 }
