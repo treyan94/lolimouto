@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
 	tb "gopkg.in/tucnak/telebot.v2"
 	"math/rand"
@@ -73,6 +75,9 @@ func replaceText(m *tb.Message) {
 	_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
 
+//go:embed pathetic.png
+var img []byte
+
 func patheticHandler(m *tb.Message) {
-	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromDisk("pathetic.png")})
+	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromReader(bytes.NewReader(img))})
 }
