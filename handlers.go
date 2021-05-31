@@ -6,6 +6,7 @@ import (
 	"fmt"
 	tb "gopkg.in/tucnak/telebot.v2"
 	"math/rand"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -69,8 +70,8 @@ func replaceText(m *tb.Message) {
 		return
 	}
 
-	join := strings.Join(split[2:], "/")
-	replyMessage := "`Did you mean:` \n" + strings.Replace(replyText, split[1], join, -1)
+	mustCompile := regexp.MustCompile(split[1])
+	replyMessage := "`Did you mean:` \n" + mustCompile.ReplaceAllString(replyText, strings.Join(split[2:], "/"))
 
 	_, _ = gb.Reply(replyTo, replyMessage, &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
