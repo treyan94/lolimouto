@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"time"
 
@@ -29,6 +30,10 @@ var gb, gbErr = tb.NewBot(tb.Settings{
 	Poller: &tb.LongPoller{Timeout: 1 * time.Second},
 })
 
+var httpClient = http.Client{
+	Timeout: time.Second * 10,
+}
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -44,5 +49,6 @@ func main() {
 func registerHandlers() {
 	gb.Handle("/shout", shoutHandler)
 	gb.Handle("/pathetic", patheticHandler)
+	gb.Handle("/loli", loliHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
