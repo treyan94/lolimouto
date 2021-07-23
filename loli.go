@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type AtfItem struct {
@@ -14,7 +15,7 @@ type AtfItem struct {
 }
 
 func loliHandler(m *tb.Message) {
-	req, err := getLoliReq()
+	req, err := getLoliReq(m.Payload)
 	if err != nil {
 		return
 	}
@@ -47,9 +48,15 @@ func loliHandler(m *tb.Message) {
 	_, _ = gb.Send(m.Chat, &tb.Photo{File: tb.FromURL(items[0].FileUrl)})
 }
 
-func getLoliReq() (*http.Request, error) {
+func getLoliReq(payload string) (*http.Request, error) {
+	tags := "rating:safe order:random loli 1girl"
+
+	if payload != "" {
+		tags += " *" + strings.ReplaceAll(payload, " ", "_") + "*"
+	}
+
 	queryParams := url.Values{
-		"tags":  {"rating:safe order:random loli 1girl"},
+		"tags":  {tags},
 		"limit": {"1"},
 	}
 
