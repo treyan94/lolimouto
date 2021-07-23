@@ -80,5 +80,12 @@ func replaceText(m *tb.Message) {
 var patheticImg []byte
 
 func patheticHandler(m *tb.Message) {
-	_, _ = gb.Reply(m.ReplyTo, &tb.Photo{File: tb.FromReader(bytes.NewReader(patheticImg))})
+	what := &tb.Photo{File: tb.FromReader(bytes.NewReader(patheticImg))}
+
+	if m.ReplyTo == nil {
+		_, _ = gb.Send(m.Chat, what)
+		return
+	}
+
+	_, _ = gb.Reply(m.ReplyTo, what)
 }
