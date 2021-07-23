@@ -89,3 +89,17 @@ func patheticHandler(m *tb.Message) {
 
 	_, _ = gb.Reply(m.ReplyTo, what)
 }
+
+//go:embed blasphemy.mp4
+var blasphemyVid []byte
+
+func blasphemyHandler(m *tb.Message) {
+	what := &tb.Video{File: tb.FromReader(bytes.NewReader(blasphemyVid))}
+
+	if m.ReplyTo == nil {
+		_, _ = gb.Send(m.Chat, what)
+		return
+	}
+
+	_, _ = gb.Reply(m.ReplyTo, what)
+}
