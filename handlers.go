@@ -80,26 +80,22 @@ func replaceText(m *tb.Message) {
 var patheticImg []byte
 
 func patheticHandler(m *tb.Message) {
-	what := &tb.Photo{File: tb.FromReader(bytes.NewReader(patheticImg))}
-
-	if m.ReplyTo == nil {
-		_, _ = gb.Send(m.Chat, what)
-		return
-	}
-
-	_, _ = gb.Reply(m.ReplyTo, what)
+	mediaRes(m, &tb.Photo{File: tb.FromReader(bytes.NewReader(patheticImg))})
 }
 
 //go:embed blasphemy.mp4
 var blasphemyVid []byte
 
 func blasphemyHandler(m *tb.Message) {
-	what := &tb.Video{File: tb.FromReader(bytes.NewReader(blasphemyVid))}
+	mediaRes(m, &tb.Video{File: tb.FromReader(bytes.NewReader(blasphemyVid))})
+}
 
+func mediaRes(m *tb.Message, what interface{}) {
 	if m.ReplyTo == nil {
 		_, _ = gb.Send(m.Chat, what)
 		return
 	}
 
 	_, _ = gb.Reply(m.ReplyTo, what)
+
 }
