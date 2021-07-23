@@ -49,7 +49,7 @@ func loliHandler(m *tb.Message) {
 }
 
 func getLoliReq(payload string) (*http.Request, error) {
-	tags := "rating:safe order:random loli 1girl"
+	tags := "rating:safe order:random loli 1girl -toddler"
 
 	if payload != "" {
 		tags += " *" + strings.ReplaceAll(payload, " ", "_") + "*"
