@@ -70,6 +70,7 @@ func replaceText(m *tb.Message) {
 		return
 	}
 
+	replyText = strings.TrimPrefix(replyText, "Did you mean: \n")
 	mustCompile := regexp.MustCompile(split[1])
 	replyMessage := "`Did you mean:` \n" + mustCompile.ReplaceAllString(replyText, strings.Join(split[2:], "/"))
 
