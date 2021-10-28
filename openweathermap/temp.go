@@ -1,10 +1,16 @@
 package openweathermap
 
 type Main struct {
-	Temp      float32 `json:"temp"`
-	FeelsLike float32 `json:"feels_like"`
-	TempMin   float32 `json:"temp_min"`
-	TempMax   float32 `json:"temp_max"`
+	Temp      Temp    `json:"temp"`
+	FeelsLike Temp    `json:"feels_like"`
+	TempMin   Temp    `json:"temp_min"`
+	TempMax   Temp    `json:"temp_max"`
 	Pressure  float32 `json:"pressure"`
 	Humidity  float32 `json:"humidity"`
+}
+
+type Temp float32
+
+func (t Temp) Celsius() float32 {
+	return float32(t - 273.15)
 }
