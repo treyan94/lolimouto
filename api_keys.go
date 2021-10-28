@@ -13,7 +13,7 @@ var apiKey = func() (key string) {
 	}
 
 	if key == "" {
-		log.Fatal("provide telegram bot api key as first argument")
+		log.Fatal("Set the 'LOLIMOUTO_BOT_KEY' env variable or provide telegram bot api key as the first argument")
 	}
 
 	return key
@@ -22,12 +22,16 @@ var apiKey = func() (key string) {
 var owmApiKey = func() (key string) {
 	key = os.Getenv("OWM_API_KEY")
 
+	if key != "" {
+		return key
+	}
+
 	if args := os.Args[2:]; len(args) != 0 {
 		key = args[0]
 	}
 
 	if key == "" {
-		log.Fatal("provide telegram bot api key as first argument")
+		log.Fatal("Set the 'OWM_API_KEY' env variable or provide telegram bot api key as the second argument")
 	}
 
 	return key
