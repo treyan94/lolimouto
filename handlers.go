@@ -100,3 +100,9 @@ func mediaRes(m *tb.Message, what interface{}) {
 	_, _ = gb.Reply(m.ReplyTo, what)
 
 }
+
+func weatherHandler(m *tb.Message) {
+	c := weatherClient.Search(strings.Replace(m.Text, "/weather", "", 1))
+
+	_, _ = gb.Send(m.Chat, c.Text(), &tb.SendOptions{ParseMode: tb.ModeMarkdown})
+}

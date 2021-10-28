@@ -39,5 +39,6 @@ func registerHandlers() {
 	gb.Handle("/pathetic", patheticHandler)
 	gb.Handle("/blasphemy", blasphemyHandler)
 	gb.Handle("/loli", loliHandler)
+	gb.Handle("/weather", weatherHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
