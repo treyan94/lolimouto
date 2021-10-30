@@ -12,9 +12,9 @@ import (
 )
 
 func shoutHandler(m *tb.Message) {
-	msg := strings.ToUpper(strings.Replace(m.Text, "/shout ", "", 1))
+	msg := strings.ToUpper(m.Payload)
 
-	if msg == "/SHOUT" {
+	if msg == "" {
 		return
 	}
 
@@ -102,7 +102,7 @@ func mediaRes(m *tb.Message, what interface{}) {
 }
 
 func weatherHandler(m *tb.Message) {
-	c := weatherClient.Search(strings.Replace(m.Text, "/weather", "", 1))
+	c := weatherClient.Search(m.Payload)
 
 	_, _ = gb.Send(m.Chat, c.Text(), &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
