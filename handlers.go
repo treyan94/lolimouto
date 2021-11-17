@@ -91,6 +91,13 @@ func blasphemyHandler(m *tb.Message) {
 	mediaRes(m, &tb.Video{File: tb.FromReader(bytes.NewReader(blasphemyVid))})
 }
 
+//go:embed "hot.mp4"
+var hotVid []byte
+
+func hotHandler(m *tb.Message) {
+	mediaRes(m, &tb.Video{File: tb.FromReader(bytes.NewReader(hotVid))})
+}
+
 func mediaRes(m *tb.Message, what interface{}) {
 	if m.ReplyTo == nil {
 		_, _ = gb.Send(m.Chat, what)
