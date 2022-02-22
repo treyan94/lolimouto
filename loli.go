@@ -17,11 +17,13 @@ type AtfItem struct {
 func loliHandler(m *tb.Message) {
 	req, err := getLoliReq(m.Payload)
 	if err != nil {
+		somethingWentWrong(m)
 		return
 	}
 
 	res, getErr := httpClient.Do(req)
 	if getErr != nil {
+		somethingWentWrong(m)
 		return
 	}
 
@@ -36,12 +38,14 @@ func loliHandler(m *tb.Message) {
 
 	body, readErr := ioutil.ReadAll(res.Body)
 	if readErr != nil {
+		somethingWentWrong(m)
 		return
 	}
 
 	var items []AtfItem
 
 	if jsonErr := json.Unmarshal(body, &items); jsonErr != nil || len(items) == 0 {
+		_, _ = gb.Send(m.Chat, "No lolis found 😔")
 		return
 	}
 

@@ -43,3 +43,7 @@ func registerHandlers() {
 	gb.Handle("/weather", weatherHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
+
+func somethingWentWrong(m *tb.Message) {
+	_, _ = gb.Send(m.Sender, "Something went wrong. Please try again later.")
+}
