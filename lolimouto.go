@@ -41,6 +41,7 @@ func registerHandlers() {
 	gb.Handle("/hot", hotHandler)
 	gb.Handle("/loli", loliHandler)
 	gb.Handle("/weather", weatherHandler)
+	gb.Handle("/eval", evalHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
 
