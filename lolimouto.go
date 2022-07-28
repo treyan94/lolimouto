@@ -2,10 +2,12 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"lolimouto/openweathermap"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	tb "gopkg.in/tucnak/telebot.v2"
@@ -42,9 +44,14 @@ func registerHandlers() {
 	gb.Handle("/loli", loliHandler)
 	gb.Handle("/weather", weatherHandler)
 	gb.Handle("/eval", evalHandler)
+	gb.Handle("/roll", rollHandler)
 	gb.Handle(tb.OnText, textHandler)
 }
 
 func somethingWentWrong(m *tb.Message) {
 	_, _ = gb.Send(m.Sender, "Something went wrong. Please try again later.")
+}
+
+func implodeIntSlice(a []int, delim string) string {
+	return strings.Trim(strings.Replace(fmt.Sprint(a), " ", delim, -1), "[]")
 }

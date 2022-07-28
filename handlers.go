@@ -113,3 +113,39 @@ func weatherHandler(m *tb.Message) {
 
 	_, _ = gb.Send(m.Chat, c.Text(), &tb.SendOptions{ParseMode: tb.ModeMarkdown})
 }
+
+func rollHandler(m *tb.Message) {
+	strSplit := strings.Split(strings.ToLower(m.Payload), "d")
+
+	dice, sides, err := parseRoll(strSplit)
+
+	if err != nil {
+		_, _ = gb.Send(m.Chat, "Invalid roll")
+		return
+	}
+
+	var rolls []int
+
+	for i := 0; i < dice; i++ {
+		roll := rand.Intn(sides) + 1
+		rolls = append(rolls, roll)
+	}
+
+	_, _ = gb.Send(m.Chat, implodeIntSlice(rolls, ", "))
+}
+
+func parseRoll(strSplit []string) (dice int, sides int, err error) {
+	if len(strSplit) == 1 {
+		dice = 1
+		sides, err = strconv.Atoi(strSplit[0])
+		return
+	}
+
+	dice, err = strconv.Atoi(strSplit[0])
+	if err != nil {
+		return
+	}
+
+	sides, err = strconv.Atoi(strSplit[1])
+	return
+}
